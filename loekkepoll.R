@@ -27,15 +27,16 @@ summary(mod3<-lm(oppdksup~taxbase,data=lp))
 #model with density
 summary(mod4<-lm(oppdksup~taxbase+density,data=lp))
 
+require(ggplot2)
 setwd("~/GitHub/loekkepoll")
 pdf(file="taxplot.pdf")
 ggplot(lp,aes(x=taxbase,y=oppdksup)) +
-  geom_point(aes(color=factor(oppdksup))) +
+  geom_point(position=position_jitter(w = 0.1, h = 0.1),aes(color=factor(oppdksup)),alpha=.8) +
   geom_smooth(method="lm",color="black",alpha=.1) +
   theme_bw() +
   scale_color_manual(values=c("dark red","gray","dark green")) +
   theme(legend.position="none") +
-  xlab("Beskatningsgrundlag") +
+  xlab("Beskatningsgrundlag pr. indb.") +
   ylab("Støtte til Løkke (-1='nej', 0='ved ikke', +1='ja')")
 dev.off()
 
