@@ -1,5 +1,7 @@
 require(RCurl)
 lp<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/loekkepoll3.csv"))
+density<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/density.csv"))
+lp<-merge(lp,density,by="knr",all.x=T)
 lp$supopp01<-NA
 
 #create support/oppose variable
@@ -22,4 +24,18 @@ summary(mod1<-glm(supopp01~taxbase,data=lp,family="binomial"))
 summary(mod2<-glm(oppose01~taxbase,data=lp,family="binomial"))
 summary(mod3<-lm(oppdksup~taxbase,data=lp))
 
+#model with density
+summary(mod4<-lm(oppdksup~taxbase+density,data=lp))
+
+setwd("~/GitHub/loekkepoll")
+pdf(file="taxplot.pdf")
+ggplot(lp,aes(x=taxbase,y=oppdksup)) +
+  geom_point(aes(color=factor(oppdksup))) +
+  geom_smooth(method="lm",color="black",alpha=.1) +
+  theme_bw() +
+  scale_color_manual(values=c("dark red","gray","dark green")) +
+  theme(legend.position="none") +
+  xlab("Beskatningsgrundlag") +
+  ylab("Støtte til Løkke (-1='nej', 0='ved ikke', +1='ja')")
+dev.off()
 
