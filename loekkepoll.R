@@ -1,5 +1,6 @@
 require(RCurl)
 lp<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/loekkepoll3.csv"))
+#kilder: Jacob Packert (@jacobpackert) og Kommunale Nøgletal, noegletal.dk
 density<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/density.csv"))
 lp<-merge(lp,density,by="knr",all.x=T)
 lp$supopp01<-NA
@@ -18,6 +19,20 @@ str(lp)
 lp$oppdksup<-0
 lp$oppdksup[lp$oppose==1]<- -1
 lp$oppdksup[lp$support==1]<- 1
+
+#summary stats
+str(lp)
+summary(lp$taxbase)
+as.character(lp$name)
+View(lp[order(lp$taxbase),])
+lp[as.character(lp$name)=="Esbjerg Kommune",]
+lp[as.character(lp$name)=="Silkeborg Kommune",]
+summary(lp$taxbase[lp$oppdksup==-1])
+lp[lp$oppdksup==-1,]
+table(lp$oppdksup==-1,lp$taxbase>176800)
+2/27
+12/57
+as.character(lp$name[lp$oppdksup==-1])
 
 #fit models with tax base
 summary(mod1<-glm(supopp01~taxbase,data=lp,family="binomial"))
