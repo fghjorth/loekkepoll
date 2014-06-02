@@ -1,6 +1,6 @@
 require(RCurl)
 lp<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/loekkepoll3.csv"))
-#kilder: Jacob Packert (@jacobpackert) og Kommunale Nøgletal, noegletal.dk
+#kilder: twitter, TV2, Politiken, og Kommunale Nøgletal, noegletal.dk
 density<-read.csv(text=getURL("https://raw.githubusercontent.com/fghjorth/loekkepoll/master/density.csv"))
 lp<-merge(lp,density,by="knr",all.x=T)
 lp$supopp01<-NA
