@@ -41,7 +41,6 @@ summary(mod3<-lm(oppdksup~taxbase,data=lp))
 
 #model with density
 summary(mod4<-lm(oppdksup~taxbase+density,data=lp))
-#random change here
 
 require(ggplot2)
 setwd("~/GitHub/loekkepoll")
